@@ -13,7 +13,7 @@ Note: Headphones that uses P3 connection can't found it by name.
 help_msg = (
     "help - display this message\n"
     "show - display audio device info\n"
-    "set <device_pattern> - set output audio to a specific device"
+    "set <device_pattern> - set output audio to a specific device. Default: Speaker"
 )
 
 app_desc = "Script to change audio output device."
@@ -52,13 +52,16 @@ def set_device(device_pattern: str = "Speaker") -> None:
     os.system(f'notify-send "Changed Audio Output" "Using {device_pattern} device"')
 
 
-def cli():
+def create_parser():
     parser = ArgumentParser()
     parser.add_argument(
         "cmd",
         nargs="*",
         help=f"{app_desc}. Available Commands [help, show, set]",
     )
+    return parser
+
+def cli(parser):
     arg = parser.parse_args()
     try:
         if arg.cmd[0] == "help":
@@ -78,4 +81,4 @@ def cli():
 
 
 if __name__ == "__main__":
-    cli()
+    cli(create_parser())
